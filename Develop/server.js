@@ -10,6 +10,8 @@
 
 // WHEN I enter a new note title and the note’s text
 // THEN a Save icon appears in the navigation at the top of the page
+
+
 // WHEN I click on the Save icon
 // THEN the new note I have entered is saved and appears in the left-hand column with the other existing notes
 //
@@ -24,37 +26,19 @@
 
 const express = require('express');
 const path = require('path');
-const api = require('./routes/index')
+const notesApi = require('./routes/notes.js');
+const htmlRoutes = require('./routes/htmlroutes.js')
 
 const PORT = process.env.port || 3001;
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
-app.use('/api', api);
-const fs = require('fs')
+app.use('/api', notesApi);
+app.use('/', htmlRoutes);
+
 
 app.use(express.static('public'));
-
-app.get('/', (req, res) => 
-    res.sendFile(path.join(__dirname, '/public/index.html'))
-);
-
-app.get('/notes', (req, res) =>
-    res.sendFile(path.join(__dirname, '/notes.html'))
-
-    // fs.readFile('notes.html')
-);
-
-
-
-app.post('/api/notes', (req, res) => 
-    res.json(`${req.method} note added.`)
-);
-
-app.get('/api/notes', (req, res) =>
-    res.send('/db/db.json')
-);
 
 app.listen(PORT, () => 
     console.log(`App listening at http://localhost:${PORT}`)
