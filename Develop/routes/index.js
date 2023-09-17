@@ -1,9 +1,9 @@
 const express = require('express');
 
-const notesRouter = require('/Users/alial/bootcamp/Challenge-11/Develop/public/notes.html')
+const notesRouter = require('/public/notes.js')
 
 const app = express();
 
-app.use('/notes', notesRouter);
+app.use('/routes/notes.js', notesRouter);
 
 module.exports = app;
