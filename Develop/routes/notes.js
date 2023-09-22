@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 
 
 notesApi.get('/notes', (req, res) =>
-    fs.readFile('./db/db.json', 'utf-8', (error, data) => error ? console.error(error) : res.json(JSON.parse(data))));
+    fs.readFile('./db/db.json', 'utf-8', (error, data) => error ? console.error(error) : res.json([JSON.parse(data)])));
 
 
 
@@ -21,32 +21,33 @@ notesApi.post('/notes', (req, res) => {
             newNoteID: uuidv4(),
         };
 
-        fs.readFile('./db/db.json', 'utf-8', (error, data) => {
+        fs.readFile('./db/db.json', 'utf-8', (err, data) => {
 
             if (err) {
                 console.error(err);
+                res.status(500).send('Server Error');
+                return;
             } else {
-                const parsedNotesArr = JSON.parse(data);
+            const parsedNotesArr = [JSON.parse(data)]; // This worked because this has to be an array for json to read it??
 
-                parsedNotesArr.push(newNote);
+            parsedNotesArr.push(newNote);
 
-
-                // make db.json an array.
-                console.log(notesApi)
+            const updatedNotes = JSON.stringify(parsedNotesArr);
 
 
-                const newNoteJSON = JSON.stringify(newNote)
+            // make db.json an array.
+            console.log(notesApi)
 
-                fs.writeFile('./db/db.json', newNoteJSON, (err) =>
-                    err ? console.error(err) : console.log('Success!')
-                )
+            fs.writeFile('./db/db.json', updatedNotes, (err) =>
+                err ? console.error(err) : console.log('Success!')
+            )
             }
         });
+
+        } else {
+    res.status(400).send('Bad Request');
     }
-
-
-
-});
+}); 
 
 
 module.exports = notesApi;

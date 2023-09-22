@@ -27,7 +27,7 @@
 const express = require('express');
 const path = require('path');
 const notesApi = require('./routes/notes.js');
-const htmlRoutes = require('./routes/htmlroutes.js')
+const htmlRoutes = require('./routes/htmlroutes.js');
 
 const PORT = process.env.port || 3001;
 const app = express();
