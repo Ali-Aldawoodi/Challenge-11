@@ -15,7 +15,6 @@ notesApi.get('/notes', (req, res) =>
 notesApi.post('/notes', (req, res) => {
 
     const { title, text } = req.body
-    console.log(req.body);
 
     if (title && text) {
 
@@ -25,20 +24,13 @@ notesApi.post('/notes', (req, res) => {
                 console.error(err);
                 res.status(500).send('Server Error');
             } else {
-                const parsedNotesArr = JSON.parse(data); // This worked because this has to be an array for json to read it??
+                const parsedNotesArr = JSON.parse(data);
                 const newNote = {
                     title,
                     text,
                     newNoteID: uuidv4(),
                 };
-
                 parsedNotesArr.push(newNote);
-
-                // const updatedNotes = JSON.stringify(parsedNotesArr);
-
-                // I want to add the new note to the end of the array but when we press save i want to reset the form. 
-                // make db.json an array.
-                console.log(notesApi)
 
                 fs.writeFile('./db/db.json', JSON.stringify(parsedNotesArr), (err) => {
                     if (err) {
@@ -60,16 +52,6 @@ notesApi.post('/notes', (req, res) => {
     }
 });
 
+// Dislaying the note from the left column to the right has to do with the note id. I would bascially say something like when this note id is clicked bring the note back up on the right side. 
 
 module.exports = notesApi;
-
-
-// watch out for data structure
-// In order to fix it, you need to
-// • Read the current notes from the database
-// • JSON.parse it
-// • Add the new notes to the array
-// • JSON.stringify it
-// • Write the notes to the database
-
-// Currently you only write the new note, which writes over the old one
