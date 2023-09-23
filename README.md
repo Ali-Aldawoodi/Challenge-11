@@ -10,5 +10,5 @@ askBSC
 Tutor
 
 ## Links
-Deployed app:
-Github Repository:
+Deployed app: https://note-taker99-f7e3f9343709.herokuapp.com/
+Github Repository: https://github.com/Ali-Aldawoodi/note-taker
